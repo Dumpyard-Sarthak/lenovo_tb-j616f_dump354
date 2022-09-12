@@ -1,0 +1,83 @@
+# MTK project .rc configure
+
+on init
+    mkdir /mnt/media_rw/usbotg 0700 media_rw media_rw
+    mkdir /storage/usbotg 0700 root root
+
+on post-fs-data
+
+#Camera
+    chmod 0660 /dev/MAINAF
+    chown system camera /dev/MAINAF
+
+    chmod 0660 /dev/MAINAF2
+    chown system camera /dev/MAINAF2
+
+    chmod 0660 /dev/SUBAF
+    chown system camera /dev/SUBAF
+
+    chmod 0660 /dev/GAF001AF
+    chown system camera /dev/GAF001AF
+
+    chmod 0660 /dev/DW9714AF
+    chown system camera /dev/DW9714AF
+
+    chmod 0660 /dev/LC898212AF
+    chown system camera /dev/LC898212AF
+
+    chmod 0660 /dev/BU64745GWZAF
+    chown system camera /dev/BU64745GWZAF
+
+#SMB
+    chown system system /proc/smb/ScreenComm
+    chmod 0660 /proc/smb/ScreenComm
+
+    chmod 0660 /dev/spm
+    chown system system /dev/spm
+
+#sensor
+    chown root system /sys/class/sensor/m_sar_misc/calibrate
+
+# WiFi
+    mkdir /data/vendor/wifi 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa 0770 wifi wifi
+    mkdir /data/vendor/wifi/wpa/sockets 0770 wifi wifi
+
+#Audio
+    #SmartPA
+    chmod 0664 /sys/bus/platform/drivers/smartpainfo/chip_vendor
+    chmod 0664 /sys/bus/platform/drivers/smartpainfo/pa_num
+    chown audioserver audio /sys/bus/platform/drivers/smartpainfo/chip_vendor
+    chown audioserver audio /sys/bus/platform/drivers/smartpainfo/pa_num
+
+    # for smartpa_test
+    mkdir /mnt/vendor/nvcfg/audio
+    mkdir /mnt/vendor/nvcfg/audio/cs35l41
+    copy /vendor/etc/cs35l41/pa_calbra_re /mnt/vendor/nvcfg/audio/cs35l41/pa_calbra_re
+    chmod 0664 /mnt/vendor/nvcfg/audio/cs35l41/pa_calbra_re
+    chown system system /mnt/vendor/nvcfg/audio/cs35l41/pa_calbra_re
+
+    copy /vendor/etc/cs35l41/pa_test_f0 /mnt/vendor/nvcfg/audio/cs35l41/pa_test_f0
+    chmod 0664 /mnt/vendor/nvcfg/audio/cs35l41/pa_test_f0
+    chown system system /mnt/vendor/nvcfg/audio/cs35l41/pa_test_f0
+    #DSP
+    chmod 0664 /dev/i2c-9
+    chmod 0664 /sys/devices/platform/11015000.i2c9/i2c-9/9-0041/reset_dsp
+    chown audioserver audio /dev/i2c-9
+    chown audioserver audio /sys/devices/platform/11015000.i2c9/i2c-9/9-0041/reset_dsp
+    chmod 0444 /dev/goodix_penraw
+on init
+    # Refer to http://source.android.com/devices/tech/storage/index.html
+    # It said, "Starting in Android 4.4, multiple external storage devices are surfaced to developers through
+    #           Context.getExternalFilesDirs(), Context.getExternalCacheDirs(), and Context.getObbDirs().
+    #           External storage devices surfaced through these APIs must be a semi-permanent part of the device (such as an SD card slot in a battery compartment).
+    #           Developers expect data stored in these locations to be available over long periods of time."
+    # Therefore, if the target doesn't support sd hot-plugging (Ex: the SD card slot in a battery compartment), we need to export SECONDARY_STORAGE in 'boot' section
+    #
+    # export SECONDARY_STORAGE /storage/sdcard1
+
+service fuse_usbotg /system/bin/sdcard -u 1023 -g 1023 -w 1023 -d /mnt/media_rw/usbotg /storage/usbotg
+    class late_start
+    disabled
+
+
