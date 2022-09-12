@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<permissions>
+    <privapp-permissions package="com.lenovotab.camera">
+	<permission name="android.permission.INTERNET" />
+	<permission name="android.permission.ACCESS_NETWORK_STATE" />
+	<permission name="android.permission.READ_PHONE_STATE" />
+	<permission name="android.permission.ACCESS_WIFI_STATE" />
+	<permission name="android.permission.CAMERA"/>
+	<permission name="android.permission.RECORD_AUDIO" />
+	<permission name="android.permission.RECEIVE_BOOT_COMPLETED" />
+	<permission name="android.permission.WRITE_EXTERNAL_STORAGE" />
+	<permission name="android.permission.READ_EXTERNAL_STORAGE"/>
+	<permission name="android.permission.ACCESS_COARSE_LOCATION" />
+	<permission name="android.permission.ACCESS_FINE_LOCATION" />
+	<permission name="android.permission.ACCESS_MTK_MMHW"/>
+	<permission name="mediatek.permission.ACCESS_MTK_MMHW"/>
+	<permission name="android.permission.WRITE_MEDIA_STORAGE"/>
+	<permission name="android.permission.SET_ANIMATION_SCALE" />
+	<permission name="com.lenovo.permission.ACCESS_USER_EXPERIENCE"/>
+	<permission name="android.permission.STATUS_BAR" />
+	</privapp-permissions>
+</permissions>
